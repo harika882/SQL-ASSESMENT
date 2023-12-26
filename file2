@@ -1,0 +1,55 @@
+WITH CombinedTables AS (
+    SELECT
+        'DoNotDelete_AgeNConfigDesc' AS TableName, * FROM DoNotDelete_AgeNConfigDesc
+    UNION ALL
+    SELECT
+        'DoNotDelete_HubLocation' AS TableName, * FROM DoNotDelete_HubLocation
+    UNION ALL
+    SELECT
+        'DoNotDelete_InventoryDetails' AS TableName, * FROM DoNotDelete_InventoryDetails
+    UNION ALL
+    SELECT
+        'DoNotDelete_LOBDetails' AS TableName, * FROM DoNotDelete_LOBDetails
+    UNION ALL
+    SELECT
+        'DoNotDelete_ModelDetailNType' AS TableName, * FROM DoNotDelete_ModelDetailNType
+    UNION ALL
+    SELECT
+        'DoNotDelete_OrderNumberDetails' AS TableName, * FROM DoNotDelete_OrderNumberDetails
+    UNION ALL
+    SELECT
+        'DoNotDelete_PricingDetails' AS TableName, * FROM DoNotDelete_PricingDetails
+    UNION ALL
+    SELECT
+        'DoNotDelete_PromoPrices' AS TableName, * FROM DoNotDelete_PromoPrices
+    UNION ALL
+    SELECT
+        'DoNotDelete_RepairComments' AS TableName, * FROM DoNotDelete_RepairComments
+    UNION ALL
+    SELECT
+        'DoNotDelete_ResellerDetails' AS TableName, * FROM DoNotDelete_ResellerDetails
+    UNION ALL
+    SELECT
+        'DoNotDelete_ReservedOrNot' AS TableName, * FROM DoNotDelete_ReservedOrNot
+)
+
+SELECT
+    TableName,
+    COALESCE([Long Description], 
+             'Processor Desc: ' + COALESCE([Processor Desc], '') + CHAR(13) + CHAR(10) +
+             'Memory Desc: ' + COALESCE([Memory Desc], '') + CHAR(13) + CHAR(10) +
+             'Hard Drive Desc: ' + COALESCE([Hard Drive Desc], '') + CHAR(13) + CHAR(10) +
+             'Video Card Desc: ' + COALESCE([Video Card Desc], '') + CHAR(13) + CHAR(10) +
+             'Operating System Desc: ' + COALESCE([Operating System Desc], '') + CHAR(13) + CHAR(10) +
+             'Screen Desc: ' + COALESCE([Screen Desc], '') + CHAR(13) + CHAR(10) +
+             'System Color Desc: ' + COALESCE([System Color Desc], '') + CHAR(13) + CHAR(10) +
+             REPLICATE(CHAR(13) + CHAR(10), 5) +
+             'Scratches & Cosmetic Defects May Be Present; Software Installation May Be Required; No Os Media Kit Included.') AS [Long Description],
+    COALESCE([Short Description], [Model] + ' ' + [Inventory Type]) AS [Short Description],
+    'APCC' AS [Fulfillment Location],
+    'FG' AS [Product Status],
+    CASE WHEN [Repair Comment] LIKE '%scratch%' THEN 'SCRATCHES \MARKS ON THE UNIT' ELSE '' END AS [Cosmetic Damage],
+    COUNT(*) OVER (PARTITION BY [Config Id]) AS [Config Count],
+    COUNT(*) OVER (PARTITION BY [Model]) AS [Model Count]
+FROM
+    CombinedTables;
