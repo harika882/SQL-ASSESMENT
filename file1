@@ -1,0 +1,12 @@
+Table Names - dbo.DoNotDelete_AgeNConfigDesc,  dbo.DoNotDelete_HubLocation,  dbo.DoNotDelete_InventoryDetails,  dbo.DoNotDelete_LOBDetails,  dbo.DoNotDelete_ModelDetailNType,  dbo.DoNotDelete_OrderNumberDetails,  dbo.DoNotDelete_PricingDetails,  dbo.DoNotDelete_PromoPrices,  dbo.DoNotDelete_RepairComments,  dbo.DoNotDelete_ResellerDetails,  dbo.DoNotDelete_ReservedOrNot
+
+•	I have created 11 tables in the above database. Please combine them to get the attached dataset.
+•	Some of the columns will not be there even after combining all 11 tables. To get those columns follow the instructions below.
+o	To get column - Long Description, Concat columns [Processor Desc, Memory Desc, Hard Drive Desc, Video Card Desc, Operating System Desc, Screen Desc, System Color Desc] and then there has to be 5 blank new lines. Later, Concat all of it with text - "Scratches & Cosmetic Defects May Be Present; Software Installation May Be Required; No Os Media Kit Included."
+o	To get column - short description, Concat columns [Model and Inventory Type].
+o	The Fulfillment Location column should only have the text "APCC".
+o	The Product Status column should only have the text "FG".
+o	The Cosmetic Damage column should have text "SCRATCHES \MARKS ON THE UNIT" if the column [Repair Comment] has the word scratch mentioned in the comments.
+o	The column [Config Count] should have the count of the similar configs (as per column name Config Id).
+•	
+o	The column [Model Count] should have the count of the similar models (as per column name Model).
